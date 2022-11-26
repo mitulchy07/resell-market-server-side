@@ -25,6 +25,19 @@ async function run() {
       const result = await allUser.insertOne(userData);
       res.send(result);
     });
+
+    app.get('/dashboard/:email', async (req, res) => {
+      const email = req.params.email;
+      let query = {};
+      if (email) {
+        query = {
+          email: email,
+        };
+      }
+      const userData = await allUser.findOne(query);
+      res.send(userData);
+      console.log(email);
+    });
   } finally {
   }
 }
