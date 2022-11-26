@@ -19,6 +19,16 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const allUser = client.db('resellMarket').collection('users');
+    const categoryCollection = client
+      .db('resellMarket')
+      .collection('categories');
+
+    app.get('/categories', async (req, res) => {
+      const query = {};
+      const cursor = categoryCollection.find(query);
+      const categories = await cursor.toArray();
+      res.send(categories);
+    });
 
     app.post('/users', async (req, res) => {
       const userData = req.body;
