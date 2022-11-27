@@ -78,6 +78,13 @@ async function run() {
       const brand = await cursor.toArray();
       res.send(brand);
     });
+
+    app.delete('/myitems/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await sellCollection.deleteOne(query);
+      res.send(result);
+    });
   } finally {
   }
 }
