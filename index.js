@@ -66,6 +66,18 @@ async function run() {
       const itemsForSell = await cursor.toArray();
       res.send(itemsForSell);
     });
+    app.get('/category/:category', async (req, res) => {
+      const category = req.params.category;
+      let query = {};
+      if (category) {
+        query = {
+          category: category,
+        };
+      }
+      const cursor = sellCollection.find(query);
+      const brand = await cursor.toArray();
+      res.send(brand);
+    });
   } finally {
   }
 }
