@@ -54,6 +54,18 @@ async function run() {
       res.send(userData);
       console.log(email);
     });
+    app.get('/myitems/:email', async (req, res) => {
+      const email = req.params.email;
+      let query = {};
+      if (email) {
+        query = {
+          email: email,
+        };
+      }
+      const cursor = sellCollection.find(query);
+      const itemsForSell = await cursor.toArray();
+      res.send(itemsForSell);
+    });
   } finally {
   }
 }
