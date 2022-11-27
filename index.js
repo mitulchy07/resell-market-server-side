@@ -30,6 +30,12 @@ async function run() {
       const categories = await cursor.toArray();
       res.send(categories);
     });
+    app.get('/allsellers', async (req, res) => {
+      const query = { role: 'seller' };
+      const cursor = allUser.find(query);
+      const sellers = await cursor.toArray();
+      res.send(sellers);
+    });
 
     app.post('/users', async (req, res) => {
       const userData = req.body;
@@ -77,6 +83,24 @@ async function run() {
       const cursor = sellCollection.find(query);
       const brand = await cursor.toArray();
       res.send(brand);
+    });
+
+    app.put('/myitems/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const option = { upsert: true };
+      const review = req.body;
+      const updatedReview = {
+        $set: {
+          advertise: review.advertise,
+        },
+      };
+      const result = await sellCollection.updateOne(
+        filter,
+        updatedReview,
+        option
+      );
+      res.send(result);
     });
 
     app.delete('/myitems/:id', async (req, res) => {
